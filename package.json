@@ -1,6 +1,7 @@
 {
-  "name": "sd-0x-project-trybewallet",
+  "name": "trybewallet",
   "version": "0.1.0",
+  "homepage": "trybewallet/",
   "private": true,
   "engines": {
     "node": "16"

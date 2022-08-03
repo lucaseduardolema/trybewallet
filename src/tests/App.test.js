@@ -19,35 +19,51 @@ describe('Test App', () => {
 
   test('test login page', async () => {
     renderWithRouterAndRedux(<App />)
-    expect(screen.getByRole('button', { name: 'Entrar'})).toBeDisabled()
-    userEvent.type(screen.getByTestId('email-input'), 'test@test.com')
-    userEvent.type(screen.getByTestId('password-input'), '123')
-    expect(screen.getByRole('button', { name: 'Entrar'})).toBeDisabled()
-    userEvent.type(screen.getByTestId('email-input'), 'test@test.com')
-    userEvent.type(screen.getByTestId('password-input'), '1234567')
-    expect(screen.getByRole('button', { name: 'Entrar'})).not.toBeDisabled()
-    userEvent.click(screen.getByRole('button', { name: 'Entrar'}))
-  })
+    const button = screen.getByRole('button', { name: 'Entrar'});
+    const emailInput = screen.getByTestId('email-input');
+    const passwordInput = screen.getByTestId('password-input');
+
+    expect(button).toBeDisabled();
+
+    userEvent.type(emailInput, 'test@test.com');
+    userEvent.type(passwordInput, '123');
+
+    expect(button).toBeDisabled();
+
+    userEvent.type(emailInput, 'test@test.com');
+    userEvent.type(passwordInput, '1234567');
+
+    expect(button).not.toBeDisabled();
+
+    userEvent.click(button);
+  });
 
   test('test wallet page', () => {
     renderWithRouterAndRedux(<Wallet />, { initialState })
-    expect(screen.getByTestId('value-input')).toBeInTheDocument()
-    expect(screen.getByTestId('description-input')).toBeInTheDocument()
-    expect(screen.getByTestId('currency-input')).toBeInTheDocument()
-    expect(screen.getByTestId('method-input')).toBeInTheDocument()
-    expect(screen.getByTestId('tag-input')).toBeInTheDocument()
+    const valueInput = screen.getByTestId('value-input');
+    const descriptionInput = screen.getByTestId('description-input');
 
-    userEvent.type(screen.getByTestId('value-input'), '123')
-    expect(screen.getByTestId('value-input')).toHaveAttribute('value', '123')
-    userEvent.type(screen.getByTestId('description-input'), 'qwe')
-    expect(screen.getByTestId('description-input')).toHaveAttribute('value', 'qwe')
-    userEvent.click(screen.getByTestId('add-expense'))
-    userEvent.click(screen.getByTestId('edit-btn'))
-    userEvent.type(screen.getByTestId('value-input'), '123')
-    userEvent.type(screen.getByTestId('description-input'), 'qwe')
-    userEvent.click(screen.getByTestId('save-edit'))
+    expect(valueInput).toBeInTheDocument();
+    expect(descriptionInput).toBeInTheDocument();
+    expect(screen.getByTestId('currency-input')).toBeInTheDocument();
+    expect(screen.getByTestId('method-input')).toBeInTheDocument();
+    expect(screen.getByTestId('tag-input')).toBeInTheDocument();
 
-    userEvent.click(screen.getByTestId('delete-btn'))
+    userEvent.type(valueInput, '123');
 
-  })
-})
+    expect(valueInput).toHaveAttribute('value', '123');
+
+    userEvent.type(descriptionInput, 'qwe');
+
+    expect(descriptionInput).toHaveAttribute('value', 'qwe');
+
+    userEvent.click(screen.getByTestId('add-expense'));
+    userEvent.click(screen.getByTestId('edit-btn'));
+
+    userEvent.type(valueInput, '123');
+    userEvent.type(descriptionInput, 'qwe');
+
+    userEvent.click(screen.getByTestId('save-edit'));
+    userEvent.click(screen.getByTestId('delete-btn'));
+  });
+});
